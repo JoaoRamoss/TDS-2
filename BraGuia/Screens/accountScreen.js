@@ -6,11 +6,13 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import BottomNavigationBar from '../Components/bottomNav';
 import { useState } from 'react';
 import { faUser, faHistory, faCog, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { logout } from '../Api/api';
 
 const AccountPage = () => {
   const handleLogout = () => {
-    // Handle logout logic
+    logout().then(navigation.navigate("Login"));
   };
+
 
   const navigation = useNavigation();
 

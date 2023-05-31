@@ -86,8 +86,8 @@ const Trails = () => {
           <Text style={styles.name}>{trail.trail_name}</Text>
           <Text style={styles.whiteText}>{truncatedDescription}</Text>
           <View style={styles.moreInfo}>
-            <Text style={styles.whiteText}>Duration: {trail.trail_duration} m</Text>
-            <Text style={styles.whiteText}>Difficulty: {trail.trail_difficulty}</Text>
+            <Text style={styles.whiteText}>Duração: {trail.trail_duration} m</Text>
+            <Text style={styles.whiteText}>Dificuldade: {trail.trail_difficulty}</Text>
           </View>
         </View>
       </View>

@@ -1,21 +1,46 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, Text, View, Image, TextInput, Button, StyleSheet, ActivityIndicator, Dimensions } from 'react-native';
+import { TouchableOpacity, Text, View, Image, TextInput, Button, StyleSheet, ActivityIndicator, Dimensions, Keyboard } from 'react-native';
 import { login } from '../Api/api';
+import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
+import { checkStoredCookiesValidity } from '../Utils/cookieOven';
+import { useEffect } from 'react';
 
 import logoImage from './images/logo.png'; // Import the logo image
 
 export const LoginScreen = () => {
+  const navigation = useNavigation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    const checkCookiesAndNavigate = async () => {
+      if (await checkStoredCookiesValidity() === true) {
+        navigation.navigate("Home");
+      }
+    };
+
+    checkCookiesAndNavigate();
+  }, []);
+
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setUsername(''); // Reset the username state to empty
+      setPassword(''); // Reset the password state to empty
+    }, [])
+  );
+
   const handleLogin = () => {
     setIsLoading(true);
+    Keyboard.dismiss(); // Close the keyboard
 
     login(username, password)
       .then((responseData) => {
         // Handle the response data
         // console.log(responseData);
+        navigation.navigate("Home");
       })
       .catch((error) => {
         // Handle any errors
@@ -78,7 +103,7 @@ const styles = StyleSheet.create({
   logo: {
     width: windowWidth * 0.5,
     resizeMode: 'contain',
-    marginBottom: '30%' 
+    marginBottom: '30%',
   },
   inputContainer: {
     width: '80%',
