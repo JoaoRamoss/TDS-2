@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Trails from './Screens/trails';
 import AccountPage from './Screens/accountScreen';
+import LoginScreen from './Screens/login';
 
 export default function App() {
 

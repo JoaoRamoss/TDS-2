@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button, StyleSheet, Alert, Linking } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet, Alert, Linking, Button } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import TopHeader from '../Components/topHeader';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -15,28 +15,27 @@ const AccountPage = () => {
   const navigation = useNavigation();
 
   useFocusEffect(() => {
-    setActiveTab(0); // Set the initial active tab when the component mounts
+    setActiveTab(3); // Set the initial active tab when the component mounts
   });
 
   const [activeTab, setActiveTab] = useState(0);
   const handleTabPress = (index) => {
-
     switch(index) {
-        case 0:
-            navigation.navigate('Home');
-            break;
-        case 1: 
-            navigation.navigate('Trails');
-            break;
-        case 2:
-            showConfirmationAlert();
-            break;
-        case 3:
-            navigation.navigate('Account');
-            break;
-        default: 
-            navigation.navigate('Home');
-            break;
+      case 0:
+        navigation.navigate('Home');
+        break;
+      case 1: 
+        navigation.navigate('Trails');
+        break;
+      case 2:
+        showConfirmationAlert();
+        break;
+      case 3:
+        navigation.navigate('Account');
+        break;
+      default: 
+        navigation.navigate('Home');
+        break;
     }
     setActiveTab(index);
   };
@@ -67,47 +66,54 @@ const AccountPage = () => {
   return (
     <View style={styles.container}>
       <TopHeader/>
-      <View style={styles.buttonRow}>
-        <Button
-          title="Perfil"
-          onPress={() => {}}
-          color="black"
-        />
-        <FontAwesomeIcon icon={faUser} size={24} style={styles.icon} />
-      </View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {}}
+      >
+        <View style={styles.buttonContent}>
+          <FontAwesomeIcon icon={faUser} size={24} style={styles.icon} />
+          <Text style={styles.buttonText}>Perfil</Text>
+          
+        </View>
+      </TouchableOpacity>
 
-      <View style={styles.buttonRow}>
-        <Button
-          title="Histórico"
-          onPress={() => {}}
-          color="black"
-        />
-        <FontAwesomeIcon icon={faHistory} size={24} style={styles.icon} />
-      </View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {}}
+      >
+        <View style={styles.buttonContent}>
+          <FontAwesomeIcon icon={faHistory} size={24} style={styles.icon} />
+          <Text style={styles.buttonText}>Histórico</Text>
+          
+        </View>
+      </TouchableOpacity>
 
-      <View style={styles.buttonRow}>
-        <Button
-          title="Definições"
-          onPress={() => {}}
-          color="black"
-        />
-        <FontAwesomeIcon icon={faCog} size={24} style={styles.icon} />
-      </View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {}}
+      >
+        <View style={styles.buttonContent}>
+          <FontAwesomeIcon icon={faCog} size={24} style={styles.icon} />
+          <Text style={styles.buttonText}>Definições</Text>
+        </View>
+      </TouchableOpacity>
 
-      <View style={styles.buttonRow}>
-        <Button
-          title="Contacte-nos"
-          onPress={() => {}}
-          color="black"
-        />
-        <FontAwesomeIcon icon={faPhone} size={24} style={styles.icon} />
-      </View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {}}
+      >
+        <View style={styles.buttonContent}>
+          <FontAwesomeIcon icon={faPhone} size={24} style={styles.icon} />
+          <Text style={styles.buttonText}>Contacte-nos</Text>
+          
+        </View>
+      </TouchableOpacity>
 
       <View style={[styles.logoutButton, styles.redButton]}>
         <Button
           title="Logout"
           onPress={handleLogout}
-          color="red"
+          color="#d83349"
         />
       </View>
       <BottomNavigationBar activeTab={activeTab} onTabPress={handleTabPress} />
@@ -120,20 +126,39 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    gap: 10
   },
-  buttonRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  button: {
     marginBottom: 20,
+    backgroundColor: '#2D2E32',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    width: '70%',
+    borderRadius: 5
+  },
+  buttonContent: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    gap: 10,
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
+  buttonText: {
+    color: 'white',
+    alignSelf: 'center',
+    justifyContent: 'flex-end',
+    marginRight: 10,
   },
   icon: {
-    marginLeft: 10,
+    color: 'white',
+    marginRight: 15
   },
   logoutButton: {
-    marginTop: 40,
+    marginTop: '40%',
   },
   redButton: {
-    backgroundColor: 'red',
+    backgroundColor: '#d83349',
     width: 150,
   },
 });

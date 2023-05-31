@@ -4,7 +4,7 @@ import { login } from '../Api/api';
 
 import logoImage from './images/logo.png'; // Import the logo image
 
-const LoginScreen = () => {
+export const LoginScreen = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -35,12 +35,14 @@ const LoginScreen = () => {
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
+          selectionColor="rgba(216, 51, 73, 0.7)"
           placeholder="Username"
           value={username}
           onChangeText={setUsername}
         />
         <TextInput
           style={styles.input}
+          selectionColor="rgba(216, 51, 73, 0.7)"
           placeholder="Password"
           secureTextEntry
           value={password}
