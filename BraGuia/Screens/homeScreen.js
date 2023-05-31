@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TopHeader from '../Components/topHeader';
 import BottomNavigationBar from '../Components/bottomNav';
-import { ImageBackground, StyleSheet, View, Text } from 'react-native';
+import { ImageBackground, StyleSheet, View, Text, Alert, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -23,11 +23,40 @@ const HomeScreen = () => {
         case 1: 
             navigation.navigate('Trails');
             break;
+        case 2:
+            showConfirmationAlert();
+            break;
+        case 3:
+            navigation.navigate('Account');
+            break;
         default: 
             navigation.navigate('Home');
             break;
     }
     setActiveTab(index);
+  };
+
+  const showConfirmationAlert = () => {
+    Alert.alert(
+      'Pretende ligar para os serviços de emergência?',
+      '',
+      [
+        {
+          text: 'Não',
+          style: 'cancel',
+        },
+        {
+          text: 'Sim',
+          onPress: callEmergency,
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+  
+  const callEmergency = () => {
+    const phoneNumber = '112';
+    Linking.openURL(`tel:${phoneNumber}`);
   };
 
   return (
