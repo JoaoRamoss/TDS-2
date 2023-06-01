@@ -10,8 +10,11 @@ import MapScreen from '../Components/mapScreen';
 import { useNavigation } from '@react-navigation/native';
 import { generateGoogleMapsLink } from '../Utils/navigationUtils';
 import { Linking } from 'react-native';
+import { getUserData } from '../Api/api';
 
 const TrailDetails = ({ route }) => {
+  const [userType, setUserType] = useState('Standard');
+
   const trail = route.params;
   const navigation = useNavigation();
 
@@ -32,6 +35,19 @@ const TrailDetails = ({ route }) => {
     };
 
     fetchPins();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getUserData();
+        setUserType(data.user_type);
+      } catch (error) {
+        console.log('Error:', error);
+      }
+    };
+  
+    fetchData();
   }, []);
 
   useFocusEffect(() => {
@@ -99,9 +115,11 @@ const TrailDetails = ({ route }) => {
     <View style={styles.container}>
       <View style={styles.mapContainer}>
         <MapScreen pins={pins} toolbarEnabled={false} />
+        { userType === 'Premium' &&
         <TouchableOpacity style={styles.startRouteButton} onPress={() => handleStartRoutePress(pins)}>
           <Text style={styles.buttonText}>Iniciar rota</Text>
         </TouchableOpacity>
+        }
         <TouchableOpacity style={styles.moreButton} onPress={handleMorePress}>
           <Text style={styles.buttonText}>Mais</Text>
         </TouchableOpacity>

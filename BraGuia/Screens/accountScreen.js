@@ -7,8 +7,25 @@ import BottomNavigationBar from '../Components/bottomNav';
 import { useState } from 'react';
 import { faUser, faHistory, faCog, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { logout } from '../Api/api';
+import { useEffect } from 'react';
+import { getUserData } from '../Api/api';
 
 const AccountPage = () => {
+
+  const [userType, setUserType] = useState('Standard');
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getUserData();
+        setUserType(data.user_type);
+      } catch (error) {
+        console.log('Error:', error);
+      }
+    };
+  
+    fetchData();
+  }, []);
+
   const handleLogout = () => {
     logout().then(navigation.navigate("Login"));
   };
@@ -87,6 +104,7 @@ const AccountPage = () => {
         </View>
       </TouchableOpacity>
 
+      { userType === 'Premium' &&
       <TouchableOpacity
         style={styles.button}
         onPress={() => {}}
@@ -97,6 +115,7 @@ const AccountPage = () => {
           
         </View>
       </TouchableOpacity>
+      }
 
       <TouchableOpacity
         style={styles.button}
