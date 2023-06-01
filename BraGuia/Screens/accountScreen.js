@@ -24,6 +24,10 @@ const AccountPage = () => {
     navigation.navigate("Profile");
   }
 
+  const handleContactPress = () => {
+    navigation.navigate("Contact")
+  }
+
   const [activeTab, setActiveTab] = useState(3);
   const handleTabPress = (index) => {
     switch(index) {
@@ -106,7 +110,7 @@ const AccountPage = () => {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => {}}
+        onPress={handleContactPress}
       >
         <View style={styles.buttonContent}>
           <FontAwesomeIcon icon={faPhone} size={24} style={styles.icon} />

@@ -61,7 +61,7 @@ export const logout = async() => {
     const headers = {
       "csrftoken": cookie
     };
-    const response = await axios.post(`${BASE_URL}/logout`, null, {headers, withCredentials: false});
+    const response = await axios.post(`${BASE_URL}/logout`, {headers, withCredentials: false});
     console.log("Succesfully logged out!");
   }
   catch (error){
@@ -84,7 +84,6 @@ export const getUserData = async () => {
       'Cookie': cookie
     };
     const response = await axios.get(`${BASE_URL}/user`, {headers});
-    console.log(response.data);
     return response.data;
   }
   catch(error) {
