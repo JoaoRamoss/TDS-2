@@ -18,7 +18,7 @@ const BottomNavigationBar = ({ activeTab, onTabPress }) => {
           onPress={() => onTabPress(index)}
         >
           <Icon
-            name={tab === 'Home' ? 'home' : tab === 'Route' ? 'map' : tab === 'Emergency' ? 'star' : 'person'}
+            name={tab === 'Home' ? 'home' : tab === 'Route' ? 'map' : tab === 'Emergency' ? 'medkit' : 'person'}
             size={24}
             color={activeTab === index ? '#d83349' : '#F9F9F9'}
           />
