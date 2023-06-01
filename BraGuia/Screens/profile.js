@@ -8,14 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useFocusEffect } from "@react-navigation/native";
 
 const UserPage = () => {
-    const [userData, setUser] = useState({
-      user_type: "",
-      username: "",
-      first_name: "",
-      last_name: "",
-      email: "",
-      date_joined: ""
-    });
+    const [userData, setUser] = useState({});
 
     const navigation = useNavigation();
     
@@ -32,6 +25,24 @@ const UserPage = () => {
     
       fetchData();
     }, []);
+    
+
+  const [formattedDate, setFormattedDate] = useState('');
+  useEffect(() => {
+    const formatDate = () => {
+      const date = new Date(userData.date_joined);
+
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+
+      const formattedDate = `${day < 10 ? '0' + day : day}/${month < 10 ? '0' + month : month}/${year}`;
+
+      setFormattedDate(formattedDate);
+    };
+
+    formatDate();
+  }, [userData.date_joined]);
 
 
   useFocusEffect(() => {
@@ -87,7 +98,12 @@ const UserPage = () => {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <AltTopHeader/>
       <View style={styles.container}>
-
+        <Text style={{fontWeight: 800}}>User Type: <Text style={{fontWeight: 400}}>{userData.user_type}</Text></Text>
+        <Text style={{fontWeight: 800}}>Username: <Text style={{fontWeight: 400}}>{userData.username}</Text></Text>
+        <Text style={{fontWeight: 800}}>First Name: <Text style={{fontWeight: 400}}>{userData.first_name}</Text></Text>
+        <Text style={{fontWeight: 800}}>Last Name: <Text style={{fontWeight: 400}}>{userData.last_name}</Text></Text>
+        <Text style={{fontWeight: 800}}>Email: <Text style={{fontWeight: 400}}>{userData.email}</Text></Text>
+        <Text style={{fontWeight: 800}}>Date Joined: <Text style={{fontWeight: 400}}>{formattedDate}</Text></Text>
       </View>
       <BottomNavigationBar activeTab={activeTab} onTabPress={handleTabPress} />
     </View>

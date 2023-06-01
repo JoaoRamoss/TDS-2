@@ -70,8 +70,6 @@ export const logout = async() => {
   try {
     await AsyncStorage.removeItem('csrftoken');
     await AsyncStorage.removeItem('sessionid');
-    const test = await AsyncStorage.getItem('csrftoken');
-    console.log(test)
     console.log('Cookies deleted successfully.');
   } catch (error) {
     console.error('Error deleting cookies:', error);
@@ -83,9 +81,9 @@ export const getUserData = async () => {
   try {
     const cookie = await cookieBakery();
     const headers = {
-      Cookie: cookie
+      'Cookie': cookie
     };
-    const response = await axios.get(`${BASE_URL}/user`, null, {headers, withCredentials: false});
+    const response = await axios.get(`${BASE_URL}/user`, {headers});
     console.log(response.data);
     return response.data;
   }
