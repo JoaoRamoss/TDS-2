@@ -48,7 +48,7 @@ export const login = async (user, password) => {
 export const getTrails = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/trails`);
-    console.log(response.data[0].edges[0].edge_start.pin_lat);
+    //console.log(response.data[0].edges[0].edge_start.pin_lat);
     return response.data;
   } catch (error) {
     console.log(error.message);

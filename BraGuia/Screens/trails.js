@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, Alert, Linking } from 'react-native';
+import { View, Text, FlatList, Image, StyleSheet, Alert, Linking, TouchableOpacity } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { getTrails } from '../Api/api';
 import TopHeader from '../Components/topHeader';
@@ -79,8 +79,13 @@ const Trails = () => {
         ? trail.trail_desc.substring(0, MAX_DESCRIPTION_LENGTH) + '...'
         : trail.trail_desc;
 
+    const handleTrailPress = () => {
+      // Navigate to a different page when a trail item is clicked
+      navigation.navigate('TrailDetails', trail);
+    };
+
     return (
-      <View style={styles.trailContainer}>
+      <TouchableOpacity style={styles.trailContainer} onPress={handleTrailPress}>
         <Image source={{ uri: trail.trail_img }} style={styles.trailImage} />
         <View style={styles.textWrapper}>
           <Text style={styles.name}>{trail.trail_name}</Text>
@@ -90,7 +95,7 @@ const Trails = () => {
             <Text style={styles.whiteText}>Dificuldade: {trail.trail_difficulty}</Text>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 

@@ -8,6 +8,7 @@ import AccountPage from './Screens/accountScreen';
 import LoginScreen from './Screens/login';
 import UserPage from './Screens/profile'
 import ContactScreen from './Screens/contactScreen';
+import TrailDetails from './Screens/trailDetails';
 
 export default function App() {
 
@@ -24,6 +25,7 @@ export default function App() {
         <Stack.Screen options={{ headerShown: false }} name = "Account" component={AccountPage}/>
         <Stack.Screen options={{ headerShown: false }} name = "Profile" component={UserPage}/>
         <Stack.Screen options={{ headerShown: false }} name = "Contact" component={ContactScreen}/>
+        <Stack.Screen options={{ headerShown: false }} name = "TrailDetails" component={TrailDetails}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
