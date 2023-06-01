@@ -53,3 +53,22 @@ export const checkStoredCookiesValidity = async () => {
 
     return result;
   }
+
+  export const cookieBakery = async () => {
+    const csrfToken = await AsyncStorage.getItem('csrftoken');
+    const regex = /csrftoken=([^;]+)/;
+    const match = csrfToken.match(regex);
+
+    const formattedcsrf = match ? match[1] : null;
+
+    const sessionid = await AsyncStorage.getItem('sessionid');
+    const regex2 = /sessionid=([^;]+)/;
+    const match2 = sessionid.match(regex2);
+
+    const formattedsession = match2 ? match2[1] : null;
+
+    const finalOutput = 'csrftoken=' + formattedcsrf + ";sessionid=" + formattedsession;
+
+    return finalOutput;
+    
+  }

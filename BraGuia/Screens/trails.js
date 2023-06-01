@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'relative',
     marginBottom: '15%',
-    marginTop: '18%',
+    marginTop: '25%',
   },
   trailContainer: {
     display: 'flex',

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { formatLogoutCookie } from '../Utils/cookieOven';
+import { formatLogoutCookie, cookieBakery } from '../Utils/cookieOven';
 
 const BASE_URL = 'https://c5a2-193-137-92-29.eu.ngrok.io'
 
@@ -70,12 +70,29 @@ export const logout = async() => {
   try {
     await AsyncStorage.removeItem('csrftoken');
     await AsyncStorage.removeItem('sessionid');
+    const test = await AsyncStorage.getItem('csrftoken');
+    console.log(test)
     console.log('Cookies deleted successfully.');
   } catch (error) {
     console.error('Error deleting cookies:', error);
   }
 }
 
+
+export const getUserData = async () => {
+  try {
+    const cookie = await cookieBakery();
+    const headers = {
+      Cookie: cookie
+    };
+    const response = await axios.get(`${BASE_URL}/user`, null, {headers, withCredentials: false});
+    console.log(response.data);
+    return response.data;
+  }
+  catch(error) {
+    console.log("error: " + error.message);
+  }
+}
 
 
   

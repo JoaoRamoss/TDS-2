@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   whiteBox: {
+    paddingTop: '10%',
     backgroundColor: '#fff',
     alignItems: 'center',
     paddingVertical: 10,

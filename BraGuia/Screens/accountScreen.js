@@ -20,7 +20,11 @@ const AccountPage = () => {
     setActiveTab(3); // Set the initial active tab when the component mounts
   });
 
-  const [activeTab, setActiveTab] = useState(0);
+  const handleProfilePress = () => {
+    navigation.navigate("Profile");
+  }
+
+  const [activeTab, setActiveTab] = useState(3);
   const handleTabPress = (index) => {
     switch(index) {
       case 0:
@@ -70,7 +74,7 @@ const AccountPage = () => {
       <TopHeader/>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => {}}
+        onPress={handleProfilePress}
       >
         <View style={styles.buttonContent}>
           <FontAwesomeIcon icon={faUser} size={24} style={styles.icon} />
