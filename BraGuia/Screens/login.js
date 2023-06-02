@@ -6,7 +6,9 @@ import { useFocusEffect } from '@react-navigation/native';
 import { checkStoredCookiesValidity } from '../Utils/cookieOven';
 import { useEffect } from 'react';
 
+
 import logoImage from './images/logo.png'; // Import the logo image
+
 
 export const LoginScreen = () => {
   const navigation = useNavigation();
@@ -38,13 +40,10 @@ export const LoginScreen = () => {
 
     login(username, password)
       .then((responseData) => {
-        // Handle the response data
-        // console.log(responseData);
         navigation.navigate("Home");
       })
       .catch((error) => {
-        // Handle any errors
-        // console.error(error);
+        //inform user of error
       })
       .finally(() => {
         setIsLoading(false);

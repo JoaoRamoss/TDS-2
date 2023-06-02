@@ -28,7 +28,7 @@ export const login = async (user, password) => {
     return response.data;
   } catch (error) {
     // Handle any errors that occur during the request
-    console.error("As credenciais fornecidas não são válidas");
+    console.log("As credenciais fornecidas não são válidas");
     if (error.response) {
       // The request was made and the server responded with a status code
       console.log('Error status:', error.response.status);

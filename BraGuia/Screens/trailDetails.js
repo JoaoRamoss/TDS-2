@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import AltTopHeader from '../Components/altTopHeader';
 import BottomNavigationBar from '../Components/bottomNav';
 import { useEffect, useState } from 'react';
@@ -108,7 +108,7 @@ const TrailDetails = ({ route }) => {
   };
 
   const handleMorePress = () => {
-    // Handle the "Mais" button press here
+    navigation.navigate('MoreInfo', route.params)
   };
 
   return (
