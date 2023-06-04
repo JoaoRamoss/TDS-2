@@ -60,14 +60,14 @@ export const LoginScreen = () => {
         <TextInput
           style={styles.input}
           selectionColor="rgba(216, 51, 73, 0.7)"
-          placeholder="Username"
+          placeholder="Nome de utilizador"
           value={username}
           onChangeText={setUsername}
         />
         <TextInput
           style={styles.input}
           selectionColor="rgba(216, 51, 73, 0.7)"
-          placeholder="Password"
+          placeholder="Palavra-passe"
           secureTextEntry
           value={password}
           onChangeText={setPassword}
@@ -80,7 +80,7 @@ export const LoginScreen = () => {
           {isLoading ? (
             <ActivityIndicator color="white" />
           ) : (
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Entrar</Text>
           )}
         </TouchableOpacity>
       </View>

@@ -16,8 +16,6 @@ export default function App() {
 
   const Stack = createStackNavigator();
 
-
-  // <Stack.Screen options={{ headerShown: false }} name = "Login" component={LoginScreen}/> <- Login (Temporarily disabled)
   return (
     <NavigationContainer>
       <Stack.Navigator>
