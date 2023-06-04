@@ -1,6 +1,6 @@
 import Media from "../Model/media";
 
-export function getMediaList(edges) {
+export const  getMediaList = (edges)=> {
   const mediaSet = new Set();
   const mediaFiles = new Set();
 

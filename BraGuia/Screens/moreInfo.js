@@ -11,7 +11,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 export const MoreInfoScreen = ({ route }) => {
   const trail = route.params;
   const media = getMediaList(trail.edges);
-  console.log(media);
   const isFocused = useIsFocused();
   const navigation = useNavigation();
 
@@ -117,6 +116,9 @@ export const MoreInfoScreen = ({ route }) => {
           </View>
         ))}
       </ScrollView>
+      <ScrollView style={styles.trailDescriptionContainer} showsVerticalScrollIndicator={true}>
+        <Text style={styles.trailDescription}>{trail.trail_desc}</Text>
+      </ScrollView>
       <AltTopHeader />
       <BottomNavigationBar activeTab={activeTab} onTabPress={handleTabPress} />
     </View>
@@ -163,5 +165,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  scrollView: {
+    width: '100%',
+    paddingHorizontal: 20,
+  },
+  trailDescriptionContainer: {
+    flex: 1,
+    width: '100%',
+    marginBottom: '40%',
+    paddingHorizontal: 20,
+    paddingBottom: '50%',
+  },
+  trailDescription: {
+    fontSize: 16,
   },
 });

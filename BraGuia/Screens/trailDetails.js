@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import AltTopHeader from '../Components/altTopHeader';
 import BottomNavigationBar from '../Components/bottomNav';
 import { useEffect, useState } from 'react';
@@ -14,6 +14,8 @@ import { getUserData } from '../Api/api';
 
 const TrailDetails = ({ route }) => {
   const [userType, setUserType] = useState('Standard');
+  const [isLoadingStartRoute, setIsLoadingStartRoute] = useState(false); // Track loading state for the "Iniciar rota" button
+  const [isLoadingMore, setIsLoadingMore] = useState(false); // Track loading state for the "Mais" button
 
   const trail = route.params;
   const navigation = useNavigation();
@@ -46,7 +48,7 @@ const TrailDetails = ({ route }) => {
         console.log('Error:', error);
       }
     };
-  
+
     fetchData();
   }, []);
 
@@ -77,21 +79,16 @@ const TrailDetails = ({ route }) => {
   };
 
   const showConfirmationAlert = () => {
-    Alert.alert(
-      'Pretende ligar para os serviços de emergência?',
-      '',
-      [
-        {
-          text: 'Não',
-          style: 'cancel',
-        },
-        {
-          text: 'Sim',
-          onPress: callEmergency,
-        },
-      ],
-      { cancelable: false }
-    );
+    Alert.alert('Pretende ligar para os serviços de emergência?', '', [
+      {
+        text: 'Não',
+        style: 'cancel',
+      },
+      {
+        text: 'Sim',
+        onPress: callEmergency,
+      },
+    ]);
   };
 
   const callEmergency = () => {
@@ -100,28 +97,57 @@ const TrailDetails = ({ route }) => {
   };
 
   const handleStartRoutePress = (pins) => {
-    const link = generateGoogleMapsLink(pins)
-    Linking.openURL(link)
-    .catch((error) => {
-      console.log('Error opening Google Maps link: ' + error);
-    });
+    setIsLoadingStartRoute(true); // Set loading state to true when "Iniciar rota" button is pressed
+
+    // Simulate a delay to show the loading spinner
+    setTimeout(() => {
+      setIsLoadingStartRoute(false); // Set loading state to false after the delay
+
+      const link = generateGoogleMapsLink(pins);
+      Linking.openURL(link).catch((error) => {
+        console.log('Error opening Google Maps link: ' + error);
+      });
+    }, 1500);
   };
 
   const handleMorePress = () => {
-    navigation.navigate('MoreInfo', route.params)
+    setIsLoadingMore(true); // Set loading state to true when "Mais" button is pressed
+
+    // Simulate a delay to show the loading spinner
+    setTimeout(() => {
+      setIsLoadingMore(false); // Set loading state to false after the delay
+
+      navigation.navigate('MoreInfo', route.params);
+    }, 1500);
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.mapContainer}>
         <MapScreen pins={pins} toolbarEnabled={false} />
-        { userType === 'Premium' &&
-        <TouchableOpacity style={styles.startRouteButton} onPress={() => handleStartRoutePress(pins)}>
-          <Text style={styles.buttonText}>Iniciar rota</Text>
-        </TouchableOpacity>
-        }
-        <TouchableOpacity style={styles.moreButton} onPress={handleMorePress}>
-          <Text style={styles.buttonText}>Mais</Text>
+        {userType === 'Premium' && (
+          <TouchableOpacity
+            style={styles.startRouteButton}
+            onPress={() => handleStartRoutePress(pins)}
+            disabled={isLoadingStartRoute} // Disable the button while loading
+          >
+            {isLoadingStartRoute ? ( // Display the activity indicator when isLoadingStartRoute is true
+              <ActivityIndicator color="white" />
+            ) : (
+              <Text style={styles.buttonText}>Iniciar rota</Text>
+            )}
+          </TouchableOpacity>
+        )}
+        <TouchableOpacity
+          style={styles.moreButton}
+          onPress={handleMorePress}
+          disabled={isLoadingMore} // Disable the button while loading
+        >
+          {isLoadingMore ? ( // Display the activity indicator when isLoadingMore is true
+            <ActivityIndicator color="white" />
+          ) : (
+            <Text style={styles.buttonText}>Mais</Text>
+          )}
         </TouchableOpacity>
       </View>
       <AltTopHeader />
