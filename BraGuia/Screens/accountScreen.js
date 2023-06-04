@@ -45,6 +45,10 @@ const AccountPage = () => {
     navigation.navigate("Contact")
   }
 
+  const handleHistoryPress = () => {
+    navigation.navigate("History")
+  }
+
   const [activeTab, setActiveTab] = useState(3);
   const handleTabPress = (index) => {
     switch(index) {
@@ -107,7 +111,7 @@ const AccountPage = () => {
       { userType === 'Premium' &&
       <TouchableOpacity
         style={styles.button}
-        onPress={() => {}}
+        onPress={handleHistoryPress}
       >
         <View style={styles.buttonContent}>
           <FontAwesomeIcon icon={faHistory} size={24} style={styles.icon} />

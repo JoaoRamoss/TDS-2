@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { generateGoogleMapsLink } from '../Utils/navigationUtils';
 import { Linking } from 'react-native';
 import { getUserData } from '../Api/api';
+import { createTable, saveData } from '../Database/database';
 
 const TrailDetails = ({ route }) => {
   const [userType, setUserType] = useState('Standard');
@@ -97,6 +98,9 @@ const TrailDetails = ({ route }) => {
   };
 
   const handleStartRoutePress = (pins) => {
+    createTable();
+    saveData(trail);
+
     setIsLoadingStartRoute(true); // Set loading state to true when "Iniciar rota" button is pressed
 
     // Simulate a delay to show the loading spinner
@@ -107,7 +111,7 @@ const TrailDetails = ({ route }) => {
       Linking.openURL(link).catch((error) => {
         console.log('Error opening Google Maps link: ' + error);
       });
-    }, 1500);
+    }, 0);
   };
 
   const handleMorePress = () => {
@@ -118,7 +122,7 @@ const TrailDetails = ({ route }) => {
       setIsLoadingMore(false); // Set loading state to false after the delay
 
       navigation.navigate('MoreInfo', route.params);
-    }, 1500);
+    }, 0);
   };
 
   return (
