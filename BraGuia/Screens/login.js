@@ -17,6 +17,7 @@ import { login } from '../Api/api';
 import { useNavigation } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
 import { checkStoredCookiesValidity } from '../Utils/cookieOven';
+import { StatusBar } from 'expo-status-bar';
 
 import logoImage from './images/logo.png';
 
@@ -64,6 +65,7 @@ export const LoginScreen = () => {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
+      <StatusBar style="dark" />
       <View style={styles.logoContainer}>
         <Image source={logoImage} style={styles.logo} />
       </View>

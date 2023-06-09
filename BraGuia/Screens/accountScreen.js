@@ -202,6 +202,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     alignSelf: 'center',
     justifyContent: 'flex-end',
+    fontWeight: 'bold'
   }
 });
 
