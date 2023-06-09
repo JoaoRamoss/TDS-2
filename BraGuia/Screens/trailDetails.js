@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator, Platform } from 'react-native';
 import AltTopHeader from '../Components/altTopHeader';
 import BottomNavigationBar from '../Components/bottomNav';
 import { useEffect, useState } from 'react';
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   startRouteButton: {
     position: 'absolute',
     width: '40%',
-    bottom: '10%',
+    bottom: Platform.OS === 'ios' ? '13%':'10%',
     left: 16,
     backgroundColor: 'rgba(216, 51, 73, 0.85)',
     borderRadius: 8,
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   },
   moreButton: {
     position: 'absolute',
-    bottom: '10%',
+    bottom: Platform.OS === 'ios' ? '13%':'10%',
     right: 16,
     backgroundColor: 'rgba(45, 46, 50, 0.85)',
     borderRadius: 8,

@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import logo from './images/logo.png'
+import { StatusBar } from 'expo-status-bar';
 
 const TopHeader = () => {
   return (
     <View style={styles.container}>
+      <StatusBar style="dark" />
       <View style={styles.whiteBox}>
         <Image
           source={logo}

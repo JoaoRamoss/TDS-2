@@ -142,13 +142,12 @@ const AccountPage = () => {
         </View>
       </TouchableOpacity>
 
-      <View style={[styles.logoutButton, styles.redButton]}>
-        <Button
-          title="Logout"
-          onPress={handleLogout}
-          color="#d83349"
-        />
-      </View>
+
+      <TouchableOpacity
+        style={styles.logoutButton}
+        onPress={handleLogout}>
+          <View style={styles.logoutButtonContent}><Text style={styles.logoutButtonText}>Logout</Text></View>
+        </TouchableOpacity>
       <BottomNavigationBar activeTab={activeTab} onTabPress={handleTabPress} />
     </View>
   );
@@ -189,11 +188,21 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     marginTop: '40%',
-  },
-  redButton: {
     backgroundColor: '#d83349',
     width: 150,
+    alignSelf: 'center',
+    borderRadius: 5
   },
+  logoutButtonContent: {
+    alignSelf: 'center',
+    margin: '5%'
+  },
+  logoutButtonText: {
+    color: 'white',
+    fontSize: 16,
+    alignSelf: 'center',
+    justifyContent: 'flex-end',
+  }
 });
 
 export default AccountPage;

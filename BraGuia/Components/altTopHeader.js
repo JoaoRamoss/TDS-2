@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
 
 import logo from './images/logo.png';
 
@@ -14,6 +15,7 @@ const AltTopHeader = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar style="dark" />
       <View style={styles.whiteBox}>
         <TouchableOpacity onPress={handleGoBack} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="black" />

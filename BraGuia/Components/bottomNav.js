@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 
@@ -35,11 +35,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    height: 60,
     width: '100%',
     backgroundColor: '#2D2E32',
+    height: Platform.OS === 'ios' ? '10%' : '7%'
   },
   tab: {
+    marginBottom: Platform.OS === 'ios' ? '5%' : 0,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

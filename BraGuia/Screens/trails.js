@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     position: 'relative',
-    marginBottom: '15%',
+    marginBottom: Platform.OS === 'ios' ? '20%' : '15%',
     marginTop: '25%',
   },
   separator: {

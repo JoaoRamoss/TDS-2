@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, Alert, Linking, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Image, StyleSheet, Alert, Linking, TouchableOpacity, Platform } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { getTrails } from '../Api/api';
 import AltTopHeader from '../Components/altTopHeader';
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: '40%',
     justifyContent: 'center',
-    marginBottom: '15%'
+    marginBottom: Platform.OS === 'ios' ? '18%' : '15%'
   },
   clearButtonText: {
     color: 'white',

@@ -1,14 +1,24 @@
-import React, { useState } from 'react';
-import { TouchableOpacity, Text, View, Image, TextInput, Button, StyleSheet, ActivityIndicator, Dimensions, Keyboard } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  TouchableOpacity,
+  Text,
+  View,
+  Image,
+  TextInput,
+  Button,
+  StyleSheet,
+  ActivityIndicator,
+  Dimensions,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform
+} from 'react-native';
 import { login } from '../Api/api';
 import { useNavigation } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
 import { checkStoredCookiesValidity } from '../Utils/cookieOven';
-import { useEffect } from 'react';
 
-
-import logoImage from './images/logo.png'; // Import the logo image
-
+import logoImage from './images/logo.png';
 
 export const LoginScreen = () => {
   const navigation = useNavigation();
@@ -26,17 +36,16 @@ export const LoginScreen = () => {
     checkCookiesAndNavigate();
   }, []);
 
-
   useFocusEffect(
     React.useCallback(() => {
-      setUsername(''); // Reset the username state to empty
-      setPassword(''); // Reset the password state to empty
+      setUsername('');
+      setPassword('');
     }, [])
   );
 
   const handleLogin = () => {
     setIsLoading(true);
-    Keyboard.dismiss(); // Close the keyboard
+    Keyboard.dismiss();
 
     login(username, password)
       .then((responseData) => {
@@ -51,7 +60,10 @@ export const LoginScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <View style={styles.logoContainer}>
         <Image source={logoImage} style={styles.logo} />
       </View>
@@ -84,7 +96,7 @@ export const LoginScreen = () => {
           )}
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

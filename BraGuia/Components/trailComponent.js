@@ -1,6 +1,13 @@
 import React from "react";
 import { TouchableOpacity, Image, View, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { Dimensions } from 'react-native';
+
+const { width } = Dimensions.get('window');
+const scaleFontSize = (size) => {
+  const newSize = size * width/414;  // 414 is a reference iPhone 11 Pro Max width.
+  return newSize;
+};
 
 export const TrailListItem = ({ trail }) => {
     const navigation = useNavigation();
@@ -52,7 +59,8 @@ export const TrailListItem = ({ trail }) => {
 
       name: {
         color: "#F9F9F9",
-        fontWeight: '800'
+        fontWeight: '800',
+        fontSize: scaleFontSize(16)
       },
       textWrapper: {
         flex: 1,
@@ -66,6 +74,7 @@ export const TrailListItem = ({ trail }) => {
         color: '#F9F9F9'
       },
       whiteText: {
-        color: '#F9F9F9'
+        color: '#F9F9F9',
+        fontSize: scaleFontSize(14)
       }
   });
