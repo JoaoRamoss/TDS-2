@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, Alert, Linking, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  StyleSheet,
+  Alert,
+  Linking,
+  TouchableOpacity,
+  TextInput, // Import TextInput
+} from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { getTrails } from '../Api/api';
 import TopHeader from '../Components/topHeader';
@@ -8,6 +18,7 @@ import { TrailListItem } from '../Components/trailComponent';
 
 const Trails = () => {
   const [trails, setTrails] = useState([]);
+  const [searchText, setSearchText] = useState(''); // State for search text
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -66,22 +77,40 @@ const Trails = () => {
       { cancelable: false }
     );
   };
-  
+
   const callEmergency = () => {
     const phoneNumber = '112';
     Linking.openURL(`tel:${phoneNumber}`);
   };
 
+  const filterTrails = (trails, searchText) => {
+    return trails.filter((trail) => {
+      const trailName = trail.trail_name ? trail.trail_name.toLowerCase() : '';
+      const trailDesc = trail.trail_desc ? trail.trail_desc.toLowerCase() : '';
 
+      return trailName.includes(searchText.toLowerCase()) || trailDesc.includes(searchText.toLowerCase());
+    });
+  };
+  
+
+  const filteredTrails = filterTrails(trails, searchText); // Apply filtering
   return (
     <View style={styles.container}>
       <TopHeader />
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search..."
+          value={searchText}
+          onChangeText={setSearchText}
+        />
+      </View>
       <View style={styles.content}>
         <FlatList
-          data={trails}
+          data={filteredTrails}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <TrailListItem trail={item}/>}
-          ItemSeparatorComponent={() => <View style={styles.separator}/>}
+          renderItem={({ item }) => <TrailListItem trail={item} />}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
         />
       </View>
       <BottomNavigationBar activeTab={activeTab} onTabPress={handleTabPress} />
@@ -94,13 +123,24 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     paddingBottom: 15,
-    paddingTop: 15
+    paddingTop: 15,
+  },
+  searchContainer: {
+    paddingHorizontal: 15,
+    marginBottom: 10,
+    marginTop: "25%"
+  },
+  searchInput: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    paddingHorizontal: 10,
   },
   content: {
     flex: 1,
     position: 'relative',
     marginBottom: Platform.OS === 'ios' ? '20%' : '15%',
-    marginTop: '25%',
+    marginTop: '5%',
   },
   separator: {
     height: StyleSheet.hairlineWidth,
@@ -108,7 +148,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     backgroundColor: 'gray',
     marginBottom: 5,
-    marginTop: 5
+    marginTop: 5,
   },
 });
 

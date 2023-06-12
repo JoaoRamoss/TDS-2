@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, Alert, Linking, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, FlatList, Image, StyleSheet, Alert, Linking, TouchableOpacity, Platform, TextInput } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { getTrails } from '../Api/api';
 import AltTopHeader from '../Components/altTopHeader';
@@ -9,6 +9,7 @@ import { getData, clearStorage } from '../Database/database';
 
 const History = () => {
   const [trails, setTrails] = useState([]);
+  const [searchText, setSearchText] = useState('');
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -83,12 +84,30 @@ const History = () => {
     }
   };
 
+  const filterTrails = (trails, searchText) => {
+    return trails.filter((trail) => {
+      const trailName = trail.trail_name ? trail.trail_name.toLowerCase() : '';
+      const trailDesc = trail.trail_desc ? trail.trail_desc.toLowerCase() : '';
+
+      return trailName.includes(searchText.toLowerCase()) || trailDesc.includes(searchText.toLowerCase());
+    });
+  };
+  
+  const filteredTrails = filterTrails(trails, searchText); // Apply filtering
   return (
     <View style={styles.container}>
       <AltTopHeader />
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search..."
+          value={searchText}
+          onChangeText={setSearchText}
+        />
+      </View>
       <View style={styles.content}>
         <FlatList
-          data={trails}
+          data={filteredTrails}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => <TrailListItem trail={item}/>}
           ItemSeparatorComponent={() => <View style={styles.separator}/>}
@@ -112,6 +131,17 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingBottom: 19,
     paddingTop: 15
+  },
+  searchContainer: {
+    paddingHorizontal: 15,
+    marginBottom: 10,
+    marginTop: "25%"
+  },
+  searchInput: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    paddingHorizontal: 10,
   },
   content: {
     flex: 1,
