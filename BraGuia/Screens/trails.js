@@ -8,17 +8,20 @@ import {
   Alert,
   Linking,
   TouchableOpacity,
-  TextInput, // Import TextInput
+  TextInput,
+  Keyboard,
 } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { getTrails } from '../Api/api';
 import TopHeader from '../Components/topHeader';
 import BottomNavigationBar from '../Components/bottomNav';
 import { TrailListItem } from '../Components/trailComponent';
+import { Ionicons } from '@expo/vector-icons';
 
 const Trails = () => {
   const [trails, setTrails] = useState([]);
-  const [searchText, setSearchText] = useState(''); // State for search text
+  const [searchText, setSearchText] = useState('');
+  const [hasText, setHasText] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -35,7 +38,7 @@ const Trails = () => {
   }, []);
 
   useFocusEffect(() => {
-    setActiveTab(1); // Set the initial active tab when the component mounts
+    setActiveTab(1);
   });
 
   const [activeTab, setActiveTab] = useState(1);
@@ -91,19 +94,37 @@ const Trails = () => {
       return trailName.includes(searchText.toLowerCase()) || trailDesc.includes(searchText.toLowerCase());
     });
   };
-  
 
-  const filteredTrails = filterTrails(trails, searchText); // Apply filtering
+  const filteredTrails = filterTrails(trails, searchText);
+
+  const handleSearchInputFocus = () => {
+    setHasText(searchText !== '' || hasText);
+  };
+
+  const handleClearText = () => {
+    setSearchText('');
+    setHasText(false);
+    Keyboard.dismiss();
+  };
+
   return (
     <View style={styles.container}>
       <TopHeader />
       <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search..."
-          value={searchText}
-          onChangeText={setSearchText}
-        />
+        <View style={styles.searchInputContainer}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search..."
+            value={searchText}
+            onChangeText={setSearchText}
+            onFocus={handleSearchInputFocus}
+          />
+          {hasText || searchText !== '' ? (
+            <TouchableOpacity style={styles.clearIconContainer} onPress={handleClearText}>
+              <Ionicons name="close-circle-outline" size={24} color="gray" />
+            </TouchableOpacity>
+          ) : null}
+        </View>
       </View>
       <View style={styles.content}>
         <FlatList
@@ -128,13 +149,26 @@ const styles = StyleSheet.create({
   searchContainer: {
     paddingHorizontal: 15,
     marginBottom: 10,
-    marginTop: "25%"
+    marginTop: '25%',
+  },
+  searchInputContainer: {
+    position: 'relative',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   searchInput: {
+    flex: 1,
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
     paddingHorizontal: 10,
+    borderRadius: 5,
+    paddingRight: 30,
+  },
+  clearIconContainer: {
+    position: 'absolute',
+    top: 7,
+    right: 10,
   },
   content: {
     flex: 1,
@@ -153,3 +187,7 @@ const styles = StyleSheet.create({
 });
 
 export default Trails;
+
+
+
+

@@ -1,15 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, Alert, Linking, TouchableOpacity, Platform, TextInput } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  StyleSheet,
+  Alert,
+  Linking,
+  TouchableOpacity,
+  Platform,
+  TextInput,
+  Keyboard,
+} from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { getTrails } from '../Api/api';
 import AltTopHeader from '../Components/altTopHeader';
 import BottomNavigationBar from '../Components/bottomNav';
 import { TrailListItem } from '../Components/trailComponent';
 import { getData, clearStorage } from '../Database/database';
+import { Ionicons } from '@expo/vector-icons';
 
 const History = () => {
   const [trails, setTrails] = useState([]);
   const [searchText, setSearchText] = useState('');
+  const [hasText, setHasText] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -68,7 +82,7 @@ const History = () => {
       { cancelable: false }
     );
   };
-  
+
   const callEmergency = () => {
     const phoneNumber = '112';
     Linking.openURL(`tel:${phoneNumber}`);
@@ -76,12 +90,21 @@ const History = () => {
 
   const handleClearHistory = () => {
     try {
-        clearStorage();
-        setTrails([]);
+      clearStorage();
+      setTrails([]);
+    } catch (error) {
+      console.log(error);
     }
-    catch(error){
-        console.log(error);
-    }
+  };
+
+  const handleSearchInputFocus = () => {
+    setHasText(searchText !== '');
+  };
+
+  const handleClearText = () => {
+    setSearchText('');
+    setHasText(false);
+    Keyboard.dismiss();
   };
 
   const filterTrails = (trails, searchText) => {
@@ -92,35 +115,46 @@ const History = () => {
       return trailName.includes(searchText.toLowerCase()) || trailDesc.includes(searchText.toLowerCase());
     });
   };
-  
+
   const filteredTrails = filterTrails(trails, searchText); // Apply filtering
+
   return (
     <View style={styles.container}>
       <AltTopHeader />
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search..."
-          value={searchText}
-          onChangeText={setSearchText}
-        />
-      </View>
+      {trails.length > 0 && (
+        <View style={styles.searchContainer}>
+          <View style={styles.searchInputContainer}>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search..."
+              value={searchText}
+              onChangeText={setSearchText}
+              onFocus={handleSearchInputFocus}
+            />
+            {hasText || searchText !== '' ? (
+              <TouchableOpacity style={styles.clearIconContainer} onPress={handleClearText}>
+                <Ionicons name="close-circle-outline" size={24} color="gray" />
+              </TouchableOpacity>
+            ) : null}
+          </View>
+        </View>
+      )}
       <View style={styles.content}>
         <FlatList
           data={filteredTrails}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <TrailListItem trail={item}/>}
-          ItemSeparatorComponent={() => <View style={styles.separator}/>}
+          renderItem={({ item }) => <TrailListItem trail={item} />}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
         />
       </View>
       <BottomNavigationBar activeTab={activeTab} onTabPress={handleTabPress} />
-      {trails.length > 0 ?
+      {trails.length > 0 ? (
         <TouchableOpacity style={styles.clearButton} onPress={handleClearHistory}>
-            <Text style={styles.clearButtonText}>Limpar Histórico</Text>
-        </TouchableOpacity> :
-
+          <Text style={styles.clearButtonText}>Limpar Histórico</Text>
+        </TouchableOpacity>
+      ) : (
         <Text style={styles.vazio}>O histórico está vazio.</Text>
-      }
+      )}
     </View>
   );
 };
@@ -130,24 +164,37 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     paddingBottom: 19,
-    paddingTop: 15
+    paddingTop: 15,
   },
   searchContainer: {
     paddingHorizontal: 15,
     marginBottom: 10,
-    marginTop: "25%"
+    marginTop: '25%',
+  },
+  searchInputContainer: {
+    position: 'relative',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   searchInput: {
+    flex: 1,
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
     paddingHorizontal: 10,
+    borderRadius: 5,
+    paddingRight: 30,
+  },
+  clearIconContainer: {
+    position: 'absolute',
+    top: 7,
+    right: 10,
   },
   content: {
     flex: 1,
     position: 'relative',
     marginBottom: '7%',
-    marginTop: '25%',
+    marginTop: '7%',
   },
   separator: {
     height: StyleSheet.hairlineWidth,
@@ -155,7 +202,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     backgroundColor: 'gray',
     marginBottom: 5,
-    marginTop: 5
+    marginTop: 5,
   },
   clearButton: {
     backgroundColor: '#d83349',
@@ -166,7 +213,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: '40%',
     justifyContent: 'center',
-    marginBottom: Platform.OS === 'ios' ? '18%' : '15%'
+    marginBottom: Platform.OS === 'ios' ? '18%' : '15%',
   },
   clearButtonText: {
     color: 'white',
@@ -179,8 +226,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     marginBottom: '100%',
-    fontSize: 15
-  }
+    fontSize: 15,
+  },
 });
 
 export default History;
